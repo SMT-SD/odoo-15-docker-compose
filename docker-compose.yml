@@ -12,7 +12,8 @@ services:
         - ./postgresql:/var/lib/postgresql/data
 
   odoo15:
-    image: odoo:15
+   # image: odoo:15
+    build : .
     user: root
     depends_on:
       - db
@@ -43,7 +44,7 @@ services:
     - odoo15
     ports:
     - "80:5000"
-    - "9003:1936"
+    #- "9003:1936"
     environment:
       BACKENDS: "odoo15:8069"
       DNS_ENABLED: "true"
