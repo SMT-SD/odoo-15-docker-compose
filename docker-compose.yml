@@ -43,7 +43,7 @@ services:
     depends_on:
     - odoo15
     ports:
-    - "80:5000"
+    - "8069:5000"
     #- "9003:1936"
     environment:
       BACKENDS: "odoo15:8069"
@@ -51,6 +51,7 @@ services:
       LOG_LEVEL: "info"
       BACKENDS_PORT: 9002
       STATS_AUTH : admin:YbrS9eP4!j
+      TIMEOUT_SERVER : 180000      
       #LOGGING: :9002
       #VIRTUAL_HOST: 
       #LETSENCRYPT_HOST:
