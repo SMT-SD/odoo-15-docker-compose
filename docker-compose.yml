@@ -1,4 +1,4 @@
-version: '2'
+version: '3.6'
 services:
   db:
     image: postgres:14
@@ -17,11 +17,9 @@ services:
     user: root
     depends_on:
       - db
-   # ports:
-    #  - "8069"
-     # - "20015:8072" # live chat
-    expose:
-    - "8069"
+    ports:
+      - 8069:8069
+      #- "20015:8072" # live chat
     tty: true
     command: --
     environment:
@@ -31,37 +29,7 @@ services:
     volumes:
       #- /etc/timezone:/etc/timezone:ro
       #- /etc/localtime:/etc/localtime:ro
-      # - ./entrypoint.sh:/entrypoint.sh   # if you want to install additional Python packages, uncomment this line!
+      #- ./entrypoint.sh:/entrypoint.sh   # if you want to install additional Python packages, uncomment this line!
       - ./addons:/mnt/extra-addons
       - ./etc:/etc/odoo
     restart: always             # run as a service
-    
-
-  haproxy:
-    image: eeacms/haproxy
-    restart: always
-    depends_on:
-    - odoo15
-    ports:
-    - "8069:5000"
-    #- "9003:1936"
-    environment:
-      BACKENDS: "odoo15:8069"
-      DNS_ENABLED: "true"
-      LOG_LEVEL: "info"
-      BACKENDS_PORT: 9002
-      STATS_AUTH : admin:YbrS9eP4!j
-      TIMEOUT_SERVER : 180000      
-      #LOGGING: :9002
-      #VIRTUAL_HOST: 
-      #LETSENCRYPT_HOST:
-      #VIRTUAL_PORT: 1936
-      #BACKEND_NAME: "web"
-      #FRONTEND_NAME: "db"
-      #VIRTUAL_HOST : manarah.rm.org.sa
-      #VIRTUAL_PORT : 5000
-      #LETSENCRYPT_HOST : manarah.rm.org.sa
-      #LETSENCRYPT_DNS_MODE : dns-01-challenge
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock
-
